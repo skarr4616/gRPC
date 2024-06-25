@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.example";
+option java_outer_classname = "ServerProto";
+option objc_class_prefix = "HLW";
+
+package server;
+
+// RPC methods for CRUD APIs
+service BookService {
+  rpc AddBook (AddBookRequest) returns (AddBookResponse) {}
+  rpc UpdateBook (UpdateBookRequest) returns (UpdateBookResponse) {}
+  rpc DeleteBook (DeleteBookRequest) returns (DeleteBookResponse) {}
+  rpc GetBooks (GetBooksRequest) returns (GetBooksResponse) {}
+}
+
+// Message structure for Book
+message Book {
+  string isbn = 1;
+  string title = 2;
+  repeated string authors = 3;
+  int32 page_count = 4;
+}
+
+message AddBookRequest {
+  string user_id = 1;
+  Book book = 2;
+}
+
+message AddBookResponse {
+  string user_id = 1;
+  string isbn = 2;
+  string response = 3;
+}
+
+message UpdateBookRequest {
+  string user_id = 1;
+  Book book = 2;
+}
+
+message UpdateBookResponse {
+  string user_id = 1;
+  string isbn = 2;
+  string response = 3;
+}
+
+message DeleteBookRequest {
+  string user_id = 1;
+  string isbn = 2;
+}
+
+message DeleteBookResponse {
+  string user_id = 1;
+  string isbn = 2;
+  string response = 3;
+}
+
+// Message structure for GET API. Number of books requested can be none or more than one.
+// In case of no isbn is specified, all the books are returned
+message GetBooksRequest {
+  string user_id = 1;
+  repeated string isbn = 2;
+}
+
+message GetBooksResponse {
+  string user_id = 1;
+  repeated Book book = 2;
+  string response = 3;
+}
